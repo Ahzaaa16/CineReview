@@ -6,20 +6,21 @@ import (
 )
 
 type Film struct {
-	Judul  string
-	Genre  string
-	Tahun  int
-	Rating float64
+	Judul     string
+	Genre     string
+	Tahun     int
+	Deskripsi string
+	Rating    float64
 }
 
 func main() {
 
 	var films []Film = []Film{
-		{"Interstellar", "Sci-Fi", 2014, 9.0},
-		{"Avengers", "Action", 2012, 8.5},
-		{"Parasite", "Thriller", 2019, 8.8},
-		{"Inception", "Sci-Fi", 2010, 8.7},
-		{"Joker", "Drama", 2019, 8.4},
+		{"Interstellar", "Sci-Fi", 2014, "Film_Luar_Angkasa", 9.0},
+		{"Avengers", "Action", 2012, "Superhero_Marvel", 8.5},
+		{"Parasite", "Thriller", 2019, "Kehidupan_Sosial", 8.8},
+		{"Inception", "Sci-Fi", 2010, "Mimpi dalam Mimpi", 8.7},
+		{"Joker", "Drama", 2019, "Asal_usul_Joker", 8.4},
 	}
 
 	var pilihan int
@@ -35,6 +36,7 @@ func main() {
 		fmt.Println("6. Urutkan Rating Film")
 		fmt.Println("7. Urutkan Tahun Film")
 		fmt.Println("8. Tampilkan Semua Film")
+		fmt.Println("9. Statistik Film")
 		fmt.Println("0. Keluar")
 		fmt.Print("Pilih menu : ")
 		fmt.Scan(&pilihan)
@@ -89,6 +91,10 @@ func main() {
 
 			tampilFilm(films)
 
+		} else if pilihan == 9 {
+
+			statistikFilm(films)
+
 		} else if pilihan == 0 {
 
 			fmt.Println("Program selesai")
@@ -112,6 +118,7 @@ func tampilFilm(films []Film) {
 		fmt.Println("Judul   :", films[i].Judul)
 		fmt.Println("Genre   :", films[i].Genre)
 		fmt.Println("Tahun   :", films[i].Tahun)
+		fmt.Println("Deskripsi :", films[i].Deskripsi)
 		fmt.Println("Rating  :", films[i].Rating)
 	}
 }
@@ -129,6 +136,9 @@ func tambahFilm(films *[]Film) {
 
 	fmt.Print("Masukkan Tahun  : ")
 	fmt.Scan(&filmBaru.Tahun)
+
+	fmt.Print("Masukkan Deskripsi : ")
+	fmt.Scan(&filmBaru.Deskripsi)
 
 	fmt.Print("Masukkan Rating : ")
 	fmt.Scan(&filmBaru.Rating)
@@ -160,6 +170,9 @@ func editFilm(films *[]Film) {
 
 		fmt.Print("Tahun Baru  : ")
 		fmt.Scan(&(*films)[nomor].Tahun)
+
+		fmt.Print("Deskripsi Baru : ")
+		fmt.Scan(&(*films)[nomor].Deskripsi)
 
 		fmt.Print("Rating Baru : ")
 		fmt.Scan(&(*films)[nomor].Rating)
@@ -326,4 +339,53 @@ func urutJudul(films *[]Film) {
 
 		(*films)[j+1] = key
 	}
+}
+
+func statistikFilm(films []Film) {
+
+	var i int
+	var action, thriller, drama, scifi, lainnya int
+	var totalRating float64
+
+	if len(films) == 0 {
+
+		fmt.Println("Belum ada data film")
+		return
+	}
+
+	for i = 0; i < len(films); i++ {
+
+		totalRating += films[i].Rating
+
+		if strings.EqualFold(films[i].Genre, "Action") {
+
+			action++
+
+		} else if strings.EqualFold(films[i].Genre, "Thriller") {
+
+			thriller++
+
+		} else if strings.EqualFold(films[i].Genre, "Drama") {
+
+			drama++
+
+		} else if strings.EqualFold(films[i].Genre, "Sci-Fi") {
+
+			scifi++
+
+		} else {
+
+			lainnya++
+		}
+	}
+
+	fmt.Println("\n===== STATISTIK FILM =====")
+	fmt.Println("Jumlah Film Action   :", action)
+	fmt.Println("Jumlah Film Thriller :", thriller)
+	fmt.Println("Jumlah Film Drama    :", drama)
+	fmt.Println("Jumlah Film Sci-Fi   :", scifi)
+	fmt.Println("Genre Lainnya        :", lainnya)
+
+	fmt.Printf("Rata-rata Rating : %.2f\n",
+		totalRating/float64(len(films)))
 }
