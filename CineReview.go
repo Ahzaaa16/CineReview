@@ -123,7 +123,6 @@ func tampilFilm(films []Film) {
 	}
 }
 
-// tambah data film (@jebb_24)
 func tambahFilm(films *[]Film) {
 
 	var filmBaru Film
@@ -148,7 +147,6 @@ func tambahFilm(films *[]Film) {
 	fmt.Println("Film berhasil ditambahkan")
 }
 
-// edit data film (eel)
 func editFilm(films *[]Film) {
 
 	var nomor int
@@ -185,7 +183,6 @@ func editFilm(films *[]Film) {
 	}
 }
 
-// hapus data film (@jebb_24)
 func hapusFilm(films *[]Film) {
 
 	var nomor int
